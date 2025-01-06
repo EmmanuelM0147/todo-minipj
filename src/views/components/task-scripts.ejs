@@ -1,0 +1,56 @@
+<%# Task scripts component %>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const statusFilter = document.getElementById('statusFilter');
+  const taskItems = document.querySelectorAll('.task-item');
+
+  statusFilter.addEventListener('change', () => {
+    const selectedStatus = statusFilter.value;
+    taskItems.forEach(item => {
+      if (selectedStatus === 'all' || item.dataset.status === selectedStatus) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+
+  document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', async (e) => {
+      const taskId = e.target.dataset.taskId;
+      const status = e.target.checked ? 'completed' : 'pending';
+
+      try {
+        const response = await axios.put(`/tasks/${taskId}/status`, { status });
+        if (response.data.success) {
+          const taskItem = checkbox.closest('.task-item');
+          taskItem.dataset.status = status;
+          taskItem.classList.toggle('bg-green-50', status === 'completed');
+          
+          const title = taskItem.querySelector('h3');
+          title.classList.toggle('line-through', status === 'completed');
+          title.classList.toggle('text-gray-500', status === 'completed');
+        }
+      } catch (error) {
+        console.error('Error updating task:', error);
+        e.target.checked = !e.target.checked;
+      }
+    });
+  });
+
+  document.querySelectorAll('.delete-task').forEach(button => {
+    button.addEventListener('click', async () => {
+      const taskId = button.dataset.taskId;
+      if (confirm('Are you sure you want to delete this task?')) {
+        try {
+          const response = await axios.put(`/tasks/${taskId}/status`, { status: 'deleted' });
+          if (response.data.success) {
+            button.closest('.task-item').remove();
+          }
+        } catch (error) {
+          console.error('Error deleting task:', error);
+        }
+      }
+    });
+  });
+});</script>

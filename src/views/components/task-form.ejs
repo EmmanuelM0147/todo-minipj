@@ -1,0 +1,39 @@
+<%# Task form component %>
+<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+  <h2 class="text-2xl font-bold mb-4">Add A New Tasks</h2>
+  <h6 class="text-1sm mb-4">Manage your tasks efficiently</h6>
+  
+  <%- include('./flash-messages', { error, success }) %>
+
+  <form action="/tasks" method="POST">
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+        Title
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="title"
+        type="text"
+        name="title"
+        required
+      >
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+        Description
+      </label>
+      <textarea
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="description"
+        name="description"
+        rows="3"
+      ></textarea>
+    </div>
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      type="submit"
+    >
+      Add Task
+    </button>
+  </form>
+</div>

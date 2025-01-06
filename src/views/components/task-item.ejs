@@ -1,0 +1,26 @@
+<%# Task item component %>
+<div class="task-item mb-4 p-4 border rounded <%= task.status === 'completed' ? 'bg-green-50' : 'bg-white' %>"
+     data-status="<%= task.status %>">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <input
+        type="checkbox"
+        class="task-checkbox mr-3"
+        data-task-id="<%= task._id %>"
+        <%= task.status === 'completed' ? 'checked' : '' %>
+      >
+      <div>
+        <h3 class="font-semibold <%= task.status === 'completed' ? 'line-through text-gray-500' : '' %>">
+          <%= task.title %>
+        </h3>
+        <p class="text-gray-600 text-sm"><%= task.description %></p>
+      </div>
+    </div>
+    <button
+      class="delete-task text-red-500 hover:text-red-700"
+      data-task-id="<%= task._id %>"
+    >
+      Delete
+    </button>
+  </div>
+</div>
